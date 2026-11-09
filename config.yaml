@@ -1,0 +1,23 @@
+model_list:
+  - model_name: kimi-k3-primary
+    litellm_params:
+      model: fireworks_ai/accounts/fireworks/models/kimi-k3-spot
+      api_key: os.environ/FIREWORKS_AI_API_KEY
+      max_retries: 2
+      timeout: 120
+
+  - model_name: kimi-k3-fallback
+    litellm_params:
+      model: fireworks_ai/accounts/fireworks/models/kimi-k3p1-pro
+      api_key: os.environ/FIREWORKS_AI_API_KEY
+
+  - model_name: deepseek-v4-flash-aux
+    litellm_params:
+      model: fireworks_ai/accounts/fireworks/models/deepseek-v4p1-flash-1017-spot
+      api_key: os.environ/FIREWORKS_AI_API_KEY
+
+router_settings:
+  routing_strategy: simple-shuffle
+  num_retries: 2
+  fallbacks:
+    - {"kimi-k3-primary": ["kimi-k3-fallback"]}
